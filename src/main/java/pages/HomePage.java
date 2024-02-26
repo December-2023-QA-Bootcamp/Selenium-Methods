@@ -166,16 +166,156 @@ public class HomePage {
 	
 	// Important: Use of linkText as locator
 	// Web Element: forgot password
-	public void use_of_partialLinkText_as_locator_in_terms_and_Conditions_hyperlink() {
+	public void use_of_partialLinkText_as_locator_in_terms_and_conditions_hyperlink() {
 		pause(3);
 		clickElement(termsAndConditions);
 		pause(3);
 	}
+	
+	// Web Element: Logo
+	// logo: class attribute value:  cms-icon cms-sprite-loggedout ms-3
+	// Exception 'InvalidSelectorException': 'Compound class names not permitted',
+	// so even if you see class value is unique but separated by space, avoid this as class name locator
+	// This scenario will show error and will failed everywhere
+	public void why_we_use_cssSelector_as_locator_in_logo () {
+		driver.findElement(By.className("cms-icon cms-sprite-loggedout ms-3")).click();
+	}
+	
+	// Web Element: New User Registration Button
+	// Important: Use of cssSelector as locator
+	// cssSelector is very important for interview
+	// cssSelector by class --> inside the string, first put html tag, then dot, then write value of the class attribute 
+	public void role1_use_of_cssSelector_by_class_name_value () {
+		driver.findElement(By.cssSelector("a.cms-newuser-reg")).click();
+		pause(3);
+	}
+	
+	// Important: Use of cssSelector as locator
+	// Web Element: login Button
+	// if you wanna create cssSelector by id 
+	// first html tag, then # (hash), then write the value of id attribute inside the string
+	public void role2_use_of_cssSelector_by_id_value() {
+		driver.findElement(By.cssSelector("button#cms-login-submit")).click();
+		pause(3);
+	}
+	
+	// Web Element: logo
+	// Important: Use of cssSelector as locator
+	// if the class (compound class) contain separate words [cms-icon cms-sprite-loggedout ms-3], 
+	// they are actually different class, then
+	// we have to close the gap between classes by putting the dot/period
+	// cssSelector by class --> htmltag.class name value 
+	// remove the space between words in class value, and replace with dot/period
+	public void role3_use_of_cssSelector_by_compund_class_name_value () {
+		driver.findElement(By.cssSelector("em.cms-icon.cms-sprite-loggedout.ms-3")).click();
+		pause(3);
+	}
 		
+	// Above 3 is mostly used, 90% cases of css selector, also very common interview question
+	// below 3 high level, no need to see if you feel they are tough
 	
+	// Use of cssSelector as locator
+	// Web Element: login Button
+	// high level, you can ignore
+	// cssSelector by another attribute
+	// --> htmltag[id/class/name attribute = 'value of the attribute' ] , in xpath - you use // and @, which is absent here 
+	// and you can use any other attribute name except id and class
+	public void role4_use_of_cssSelector_by_attribute_and_its_value () {
+		driver.findElement(By.cssSelector("button[name='Submit Login']")).click();
+		pause(3);
+	}
 	
+	// Web Element: NUR Button
+	// Not important, can ignore
+	// cssSelector by another attribute
+	// --> htmltag.value of class[id/class/name attribute = 'value of the attribute'] , in xpath you use // and @, which is absent here and you can use attribute except id and class
+	// That's why we use title
+	public void role5_use_of_cssSelector_by_class_name_value_and_attribute_and_its_value() {
+		driver.findElement(By.cssSelector("a.cms-newuser-reg[title='New User Registration']")).click();
+		pause(3);
+	}
 	
+	// Important: Use of cssSelector as locator
+	// Web Element: login Button
+	// Not important, can ignore
+	// cssSelector by another attribute
+	// --> htmltag#value of ID[attribute name='value'] , in xpath you use // and @, which is absent here and you can use attribute except id and class	
+	public void role6_use_of_cssSelector_by_id_value_and_attribute_and_its_value() {
+		driver.findElement(By.cssSelector("button#cms-login-submit[title='Login']")).click();
+		pause(3);
+	}
 	
+	// Important: Use of tagName as locator
+	// tag name: we have to go to Amazon and find "table" tag
 	
+	// in cms portal not a single tag except header
+	public void use_of_tagName_as_locator() {
+		driver.findElement(By.tagName("header")).click(); // not a click able element, just showed you
+	}
+	
+	// Web Element: logo
+	// isDisplayed() is an alternate of click() method which is boolean type
+	// isDisplayed() is the method used to verify the presence of a web element within the web page.
+	// Use of isDisplayed() available in --> image, link, button, text field, check box etc.
+	public void use_of_isDisplayed() {
+		boolean elementDisplayed = driver.findElement(By.cssSelector("em.cms-icon.cms-sprite-loggedout.ms-3")).isDisplayed();
+		System.out.println("Is the Logo displayed? Ans: " + elementDisplayed);
+	}
+	// This is raw, used without common method
+	
+	// use of isDisplayed method inside elementDisplayed()
+	public void use_of_isDisplayed_in_login() {
+		elementDisplayed(userId);
+		inputText(userId, "Tofael");
+		pause(3);
+		elementDisplayed(password);
+		inputText(password, "Enthrall@63468");
+		pause(3);
+		elementDisplayed(iAgree);
+		clickElement(iAgree);
+		pause(3);
+		clickElement(loginButton);
+		pause(3);
+	}
+	
+	// Web Element: login Button
+	// isEnabled() is the method used to verify if the web element is enabled or
+	// disabled within the web page. isEnabled() is primarily used with buttons.
+	// Use of isEnabled(), a boolean type method
+	
+	// use of isEnabled method inside elementEnabled()
+	public void use_of_isEnabled_in_login() {
+		elementDisplayed(userId);
+		inputText(userId, "Tofael");
+		pause(3);
+		elementDisplayed(password);
+		inputText(password, "Enthrall@63468");
+		pause(3);
+		elementDisplayed(iAgree);
+		clickElement(iAgree);
+		pause(3);
+		elementEnabled(loginButton); // here is the use
+		clickElement(loginButton);
+		pause(3);
+	}
+	
+	// Web Element: I agree
+	// Used with radio buttons, dropdowns and checkboxes.
+	// use of isSelected() method inside
+	
+	public void use_of_isSelected_in_login() {
+		elementDisplayed(userId);
+		inputText(userId, "Tofael");
+		pause(3);
+		elementDisplayed(password);
+		inputText(password, "Enthrall@63468");
+		pause(3);
+		elementSelected(iAgree); // here is the use
+		clickElement(iAgree);
+		pause(3);
+		elementEnabled(loginButton);
+		clickElement(loginButton);
+		pause(3);
+	}
 
 }

@@ -21,6 +21,14 @@
 			<artifactId>testng</artifactId>
 			<version>7.7.1</version>
 		</dependency>
+
+		<!-- Webdriver manager is used a s an alternative for chromedriver, geckodriver etc -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>5.6.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
