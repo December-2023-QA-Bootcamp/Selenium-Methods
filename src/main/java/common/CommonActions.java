@@ -1,11 +1,14 @@
 package common;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import reports.Loggers;
 
 public class CommonActions {
+	WebDriver driver;
 	
 	public static void clickElement(WebElement element) {
 		try {
@@ -79,6 +82,41 @@ public class CommonActions {
 		}
 		return true;				
 	}
+	
+	public static void verifyTitle(WebDriver driver, String expectedTitle) {
+		try {
+			String actualTitle = driver.getTitle();
+			Loggers.logTheTest("Actual Title is : " + actualTitle + " ---> And Expected Title is :" + expectedTitle);
+			Assert.assertEquals(actualTitle, expectedTitle);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			Loggers.logTheTest("Driver is not initiated properly Or Home Page Title doesn't match");
+			Assert.fail();
+		}
+	}
+	
+	public static String verifyCurrentUrl(WebDriver driver) {
+		Loggers.logTheTest("Current URL is : " + driver.getCurrentUrl());
+		return driver.getCurrentUrl();
+	}
+	
+	public static void verifyTextInTheWebElement(WebElement element, String expected) {
+		String actual = element.getText();
+		Loggers.logTheTest(element + " ---> Actual text : " + actual + ". Expected text : " + expected);
+		Assert.assertEquals(actual, expected, "Text In the WebElement doesn't match");
+	}
+	
+	public static void clearTextFromTheField(WebElement element) {
+		try {
+			element.clear();
+			Loggers.logTheTest("The Text from the " + element + " ---> is cleared");
+		} catch (NoSuchElementException | NullPointerException e) {
+			e.printStackTrace();
+			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
+			Assert.fail();
+		}
+	}
+	
 	
 	
 	
