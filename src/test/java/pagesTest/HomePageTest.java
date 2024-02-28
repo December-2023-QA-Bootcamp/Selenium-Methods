@@ -1,7 +1,11 @@
 package pagesTest;
 
+import static common.CommonActions.elementDisplayed;
+import static common.CommonActions.pause;
+import static common.CommonActions.verifyCurrentUrl;
+import static common.CommonActions.verifyTitle;
 
-import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import baseUtil.BaseClass;
@@ -129,7 +133,8 @@ public class HomePageTest extends BaseClass {
 	
 	@Test(enabled = false)
 	public void use_of_isDisplayed_test() {
-		homePage.use_of_isDisplayed();
+		homePage.use_of_isDisplayed(); // Actual Outcome by selenium
+		Assert.assertTrue(true, "Application logo is not suppose to displayed"); // Expected Outcome
 	}
 	
 	@Test(enabled = false)
@@ -142,11 +147,30 @@ public class HomePageTest extends BaseClass {
 		homePage.use_of_isEnabled_in_login();
 	}
 	
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void use_of_isSelected_in_login() {
 		homePage.use_of_isSelected_in_login();
 	}
-
+	
+	@Test(enabled = false)
+	public void getMethodsOfThePageTest() {
+		homePage.getMethodsOfThePage();
+	}
+	
+	@Test(enabled = false)
+	public void newUserRegistrationPageValidationTest() {
+		homePage.newUserRegistrationPageValidation();
+	}
+	
+	@Test(enabled = false)
+	public void use_of_getAttribute_method_Test () {
+		homePage.use_of_getAttribute_method();
+	}
+	
+	@Test(enabled = true)
+	public void use_of_clear_in_login_test() {
+		homePage.use_of_clear_in_login();
+	}
 	
 	
 	

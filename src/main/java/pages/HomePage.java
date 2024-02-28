@@ -6,11 +6,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 // new, you have to manually write it to get access of common method
 // this is possible when they are static in nature, * means all
 // This is called static import
 import static common.CommonActions.*;
+
+import java.security.PublicKey;
 
 public class HomePage {
 	WebDriver driver;
@@ -305,10 +308,10 @@ public class HomePage {
 	
 	public void use_of_isSelected_in_login() {
 		elementDisplayed(userId);
-		inputText(userId, "Tofael");
+		inputText(userId, "enthrall_12");
 		pause(3);
 		elementDisplayed(password);
-		inputText(password, "Enthrall@63468");
+		inputText(password, "Nabeeha19@12345");
 		pause(3);
 		elementSelected(iAgree); // here is the use
 		clickElement(iAgree);
@@ -316,6 +319,88 @@ public class HomePage {
 		elementEnabled(loginButton);
 		clickElement(loginButton);
 		pause(3);
+		
 	}
+	
+	// In real time scenario we do below test at the beginning of a page
+	public void getMethodsOfThePage() {
+		String actual = driver.getTitle();
+		System.out.println("Title name: "+ actual);
+		String expected = "     CMS Enterprise Portal";
+		Assert.assertEquals(actual, expected, "Title doesn't match");
+		
+		System.out.println("Current URL: " + driver.getCurrentUrl());
+		// use of getText() in "login button"
+		String nameOfTheWebElement = driver.findElement(By.name("Submit Login")).getText();
+		System.out.println("Text Present: "+nameOfTheWebElement);
+	}
+	
+	// This is the first method used in a class
+	// what is title?
+	// what is the url?
+	// is logo displayed?
+	// method coming from common action
+	public void newUserRegistrationPageValidation() {
+		pause(3);
+		elementDisplayed(logo);
+		verifyTitle(driver,"CMS Enterprise Portal");
+		elementEnabled(newUserRegistration);
+		verifyTextInTheWebElement(newUserRegistration, "New User Registration");
+		clickElement(newUserRegistration);
+		pause(3);
+		verifyCurrentUrl(driver);
+		
+	}
+	
+	// Here We used User ID field
+	// getAttribute() actually give the value of the Attribute, not common
+	// raw use, in next method we will use from common action
+	public void use_of_getAttribute_method () {
+		elementDisplayed(userId);
+		pause(4);
+		// 1 example is enough
+		String value01 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("placeholder");
+		String value02 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("class");
+		String value03 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("id");
+		String value04 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("title");
+		System.out.println("The value of the placeholder attribute is: " + value01);
+		System.out.println("The value of the class attribute is: " + value02);
+		System.out.println("The value of the id attribute is: " + value03);
+		System.out.println("The value of the title attribute is: " + value04);
+	}
+	
+	// attribute er common action in next class
+	// Assert in details
+	
+	// use of clear()
+	public void use_of_clear_in_login() {
+		elementDisplayed(userId);
+		inputText(userId, "enthrall_12");
+		pause(3);
+		clearTextFromTheField(userId);
+		inputText(userId, "enthrall_12");
+		pause(3);
+		elementDisplayed(password);
+		inputText(password, "Nabeeha19@12345");
+		pause(3);
+		clearTextFromTheField(password);
+		pause(3);
+		inputText(password, "Nabeeha19@12345");
+		elementSelected(iAgree); // here is the use
+		clickElement(iAgree);
+		pause(3);
+		elementEnabled(loginButton);
+		verifyTextInTheWebElement(loginButton, "Login");
+		clickElement(loginButton);
+		pause(3);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 
 }
