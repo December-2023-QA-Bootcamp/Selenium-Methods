@@ -7,13 +7,16 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
+
+
+import constants.Attribute;
 
 // new, you have to manually write it to get access of common method
 // this is possible when they are static in nature, * means all
 // This is called static import
 import static common.CommonActions.*;
 
-import java.security.PublicKey;
 
 public class HomePage {
 	WebDriver driver;
@@ -322,13 +325,55 @@ public class HomePage {
 		
 	}
 	
+	// Learning Assertion
+	public void logoDisplayed01() {
+		elementDisplayed(logo); // Actual outcome from selenium method
+		Assert.assertTrue(true); // Expected outcome
+	}
+	
+	public void logoDisplayed02() {
+		elementDisplayed(logo); // Actual Result or outcome which doesn't match with your below expectation
+		Assert.assertTrue(false); // Expected Result // java.lang.AssertionError: expected [true] but found [false]
+		// Although the outcome is true, but because of difference between expected vs actual is not same, the test case failed
+	}
+	
+	public void logoDisplayed03() {
+		elementDisplayed(logo); // Actual outcome from selenium method
+		// Assert.assertTrue(false, "Expected vs actual doesn't match"); // Expected outcome
+		// Assert.assertTrue(true, "Application Logo is not displayed"); // This error message will appear if failed
+		Assert.assertFalse(false, "Application Logo is not displayed"); // false false means true
+		
+	}
+	
+	public void logoDisplayed04() {
+		elementDisplayed(logo); // Actual outcome from selenium method
+		Assert.assertFalse(true, "Expected vs actual doesn't match"); // false false means true
+		
+	}
+		
 	// In real time scenario we do below test at the beginning of a page
-	public void getMethodsOfThePage() {
+	// this test case will fail, as expected vs actual doesn't match
+	public void getMethodsOfThePage01() {
 		String actual = driver.getTitle();
 		System.out.println("Title name: "+ actual);
-		String expected = "     CMS Enterprise Portal";
+		String expected = "  CMS Enterprise Portal";
 		Assert.assertEquals(actual, expected, "Title doesn't match");
 		
+		System.out.println("Current URL: " + driver.getCurrentUrl());
+		// use of getText() in "login button"
+		String nameOfTheWebElement = driver.findElement(By.name("Submit Login")).getText();
+		System.out.println("Text Present: "+nameOfTheWebElement);
+	}
+	
+	// Use of SoftAssertion
+	public void getMethodsOfThePage02() {
+		String actual = driver.getTitle();
+		System.out.println("Title name: "+ actual);
+		String expected = "  CMS Enterprise Portal";
+		// SoftAssert is used instead of HardAssert
+		SoftAssert softAssert = new SoftAssert();
+		softAssert.assertEquals(actual, expected, "Title doesn't match");
+		// When we use Soft Assertion, execution will not stopped below, if Assertion is failed in above line
 		System.out.println("Current URL: " + driver.getCurrentUrl());
 		// use of getText() in "login button"
 		String nameOfTheWebElement = driver.findElement(By.name("Submit Login")).getText();
@@ -352,26 +397,6 @@ public class HomePage {
 		
 	}
 	
-	// Here We used User ID field
-	// getAttribute() actually give the value of the Attribute, not common
-	// raw use, in next method we will use from common action
-	public void use_of_getAttribute_method () {
-		elementDisplayed(userId);
-		pause(4);
-		// 1 example is enough
-		String value01 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("placeholder");
-		String value02 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("class");
-		String value03 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("id");
-		String value04 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("title");
-		System.out.println("The value of the placeholder attribute is: " + value01);
-		System.out.println("The value of the class attribute is: " + value02);
-		System.out.println("The value of the id attribute is: " + value03);
-		System.out.println("The value of the title attribute is: " + value04);
-	}
-	
-	// attribute er common action in next class
-	// Assert in details
-	
 	// use of clear()
 	public void use_of_clear_in_login() {
 		elementDisplayed(userId);
@@ -394,6 +419,62 @@ public class HomePage {
 		clickElement(loginButton);
 		pause(3);
 		
+	}
+	
+	// Here We used User ID field
+	// getAttribute() actually give the value of the Attribute, not common
+	// raw use, in next method we will use from common action
+	public void use_of_getAttribute_method_01 () {
+		elementDisplayed(userId);
+		pause(4);
+		// 1 example is enough
+		String value01 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("placeholder");
+		String value02 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("class");
+		String value03 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("id");
+		String value04 = driver.findElement(By.xpath("//input[@id='cms-login-userId']")).getAttribute("title");
+		System.out.println("The value of the placeholder attribute is: " + value01);
+		System.out.println("The value of the class attribute is: " + value02);
+		System.out.println("The value of the id attribute is: " + value03);
+		System.out.println("The value of the title attribute is: " + value04);
+	}
+	
+	// getAttribute value from common action
+	public void use_of_getAttribute_method_02 () {
+		elementDisplayed(userId);
+		pause(4);
+		verifyAttribute01(userId,  Attribute.ID, "cms-login-userId");	
+		verifyAttribute01(userId, Attribute.NAME, "user-d");
+	}
+	
+	// use of Keys.ENTER, most common then below one
+	public void use_of_sendKeys_method_then_click_by_enter_key_of_the_laptop () {
+		elementDisplayed(userId);
+		inputTextThenClickEnter(userId, "Enthrall_12");
+		pause(3);
+	}
+	
+	// use of Keys.RETURN , do the same function of above
+	public void use_of_sendKeys_method_then_click_by_return_key_of_the_laptop () {
+		elementDisplayed(userId);
+		inputTextThenClickReturn(userId, "Enthrall_12");
+		pause(3);
+		inputTextThenClickReturn(password, "hgfshdgj");
+		pause(3);
+	}
+	
+	// use of navigate()
+	// mostly interview question, never used in framework
+	public void use_of_navigate_method () {
+		pause(3);
+		// if we click on help button, we can get below url
+		driver.navigate().to("https://portal.cms.gov/portal/help/digital/home");
+		pause(3);
+		driver.navigate().back();
+		pause(3);
+		driver.navigate().forward();
+		pause(3);
+		driver.navigate().refresh();
+		pause(3);
 	}
 	
 	

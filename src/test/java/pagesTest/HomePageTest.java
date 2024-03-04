@@ -1,10 +1,5 @@
 package pagesTest;
 
-import static common.CommonActions.elementDisplayed;
-import static common.CommonActions.pause;
-import static common.CommonActions.verifyCurrentUrl;
-import static common.CommonActions.verifyTitle;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -153,8 +148,33 @@ public class HomePageTest extends BaseClass {
 	}
 	
 	@Test(enabled = false)
-	public void getMethodsOfThePageTest() {
-		homePage.getMethodsOfThePage();
+	public void logoDisplayed01Test() {
+		homePage.logoDisplayed01();
+	}
+	
+	@Test(enabled = false)
+	public void logoDisplayed02Test() {
+		homePage.logoDisplayed02();
+	}
+	
+	@Test(enabled = false)
+	public void logoDisplayed03Test() {
+		homePage.logoDisplayed03();
+	}
+	
+	@Test(enabled = false)
+	public void logoDisplayed04Test() {
+		homePage.logoDisplayed04();
+	}
+	
+	@Test(enabled = false)
+	public void getMethodsOfThePageTest01() {
+		homePage.getMethodsOfThePage01();
+	}
+	
+	@Test(enabled = false)
+	public void getMethodsOfThePageTest02() {
+		homePage.getMethodsOfThePage02();
 	}
 	
 	@Test(enabled = false)
@@ -163,13 +183,33 @@ public class HomePageTest extends BaseClass {
 	}
 	
 	@Test(enabled = false)
-	public void use_of_getAttribute_method_Test () {
-		homePage.use_of_getAttribute_method();
+	public void use_of_clear_in_login_test() {
+		homePage.use_of_clear_in_login();
+	}
+	
+	@Test(enabled = false)
+	public void use_of_getAttribute_method_01_Test () {
+		homePage.use_of_getAttribute_method_01();
+	}
+	
+	@Test(enabled = false)
+	public void use_of_getAttribute_method_02_Test () {
+		homePage.use_of_getAttribute_method_02();
+	}
+
+	@Test(enabled = false)
+	public void use_of_sendKeys_method_then_click_by_enter_key_of_the_laptop_test () {
+		homePage.use_of_sendKeys_method_then_click_by_enter_key_of_the_laptop();
+	}
+	
+	@Test(enabled = false)
+	public void use_of_sendKeys_method_then_click_by_return_key_of_the_laptop_test () {
+		homePage.use_of_sendKeys_method_then_click_by_return_key_of_the_laptop();
 	}
 	
 	@Test(enabled = true)
-	public void use_of_clear_in_login_test() {
-		homePage.use_of_clear_in_login();
+	public void use_of_navigate_method_test () {
+		homePage.use_of_navigate_method ();
 	}
 	
 	
