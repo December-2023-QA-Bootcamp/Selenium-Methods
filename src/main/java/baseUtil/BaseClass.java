@@ -5,10 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import pages.ForgotUserId;
 import pages.HomePage;
 import pages.NewUserRegistration;
 import utils.Configuration;
@@ -19,6 +21,8 @@ public class BaseClass {
 	public HomePage homePage;
 	Configuration configuration;
 	public NewUserRegistration newUserRegistration;
+	public ForgotUserId forgotUserId;
+	public Select select;
 	
 	// Before start a test what need to do?
 	@BeforeMethod
@@ -67,6 +71,7 @@ public class BaseClass {
 	public void initClass() {
 		homePage = new HomePage(driver);
 		newUserRegistration = new NewUserRegistration();	
+		forgotUserId = new ForgotUserId(driver);
 	}	
 	
 	@AfterMethod
