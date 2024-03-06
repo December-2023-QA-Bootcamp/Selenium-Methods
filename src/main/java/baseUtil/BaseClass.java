@@ -1,11 +1,15 @@
 package baseUtil;
 
 import java.time.Duration;
+
+import org.bouncycastle.LICENSE;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -23,6 +27,8 @@ public class BaseClass {
 	public NewUserRegistration newUserRegistration;
 	public ForgotUserId forgotUserId;
 	public Select select;
+	public JavascriptExecutor js;
+	public WebDriverWait wait;
 	
 	// Before start a test what need to do?
 	@BeforeMethod
@@ -34,10 +40,13 @@ public class BaseClass {
 		driver.get(configuration.getProperties(URL));
 		// How can we convert a String to Long type
 		long pageLoadWait = Long.parseLong(configuration.getProperties(PAGELOAD_WAIT));
-		long implicitlyWait = Long.parseLong(configuration.getProperties(IMPLICITLY_WAIT));		
+		long implicitlyWait = Long.parseLong(configuration.getProperties(IMPLICITLY_WAIT));	
+		long explicitlyWait = Long.parseLong(configuration.getProperties(EXPLICITLY_WAIT));
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(pageLoadWait));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWait));
+		wait = new WebDriverWait(driver, Duration.ofSeconds(explicitlyWait));
 		initClass();
+		js = (JavascriptExecutor) driver;
 	}
 	
 	public void initDriver() {

@@ -1,12 +1,17 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 
@@ -17,9 +22,14 @@ import constants.Attribute;
 // This is called static import
 import static common.CommonActions.*;
 
+import java.time.Duration;
+
 
 public class HomePage {
 	WebDriver driver;
+	WebDriverWait wait;
+	
+	//Actions actions = new Actions(driver);
 
 	public HomePage(WebDriver driver) {
 		super();
@@ -272,10 +282,10 @@ public class HomePage {
 	// use of isDisplayed method inside elementDisplayed()
 	public void use_of_isDisplayed_in_login() {
 		elementDisplayed(userId);
-		inputText(userId, "Tofael");
+		inputText(userId, "enthrall_12");
 		pause(3);
 		elementDisplayed(password);
-		inputText(password, "Enthrall@63468");
+		inputText(password, "OnthrallTest@1234");
 		pause(3);
 		elementDisplayed(iAgree);
 		clickElement(iAgree);
@@ -292,10 +302,10 @@ public class HomePage {
 	// use of isEnabled method inside elementEnabled()
 	public void use_of_isEnabled_in_login() {
 		elementDisplayed(userId);
-		inputText(userId, "Tofael");
+		inputText(userId, "enthrall_12");
 		pause(3);
 		elementDisplayed(password);
-		inputText(password, "Enthrall@63468");
+		inputText(password, "OnthrallTest@1234");
 		pause(3);
 		elementDisplayed(iAgree);
 		clickElement(iAgree);
@@ -314,7 +324,7 @@ public class HomePage {
 		inputText(userId, "enthrall_12");
 		pause(3);
 		elementDisplayed(password);
-		inputText(password, "Nabeeha19@12345");
+		inputText(password, "OnthrallTest@1234");
 		pause(3);
 		elementSelected(iAgree); // here is the use
 		clickElement(iAgree);
@@ -477,7 +487,140 @@ public class HomePage {
 		pause(3);
 	}
 	
+	// dropdown feature is showed in forgot User id page
 	
+	// Very very important for use in framework and also a interview question
+	public void use_of_mouse_hoverAction_on_ourLocations () {
+		pause(3);
+		driver.navigate().to("https://www.mountsinai.org/");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20)); 
+		WebElement ourLocations = driver.findElement(By.xpath("//a[normalize-space(text()) = 'Our Locations' and @class='hidden-xs dropdown']"));
+		Actions actions = new Actions(driver);
+		actions.moveToElement(ourLocations).build().perform();
+		pause(6);
+	}
+	
+	// very very  Important interview question + they ask you to write the code in MS word
+	// JavaScriptExecutor is an Interface that helps to execute JavaScript through Selenium Webdriver. 
+	// so, practice it by paper pen, then in ms word
+	// alternate of click()
+	// login button used
+	public void alternate_of_click_method() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].click()", loginButton); // memorize the content
+		// arguments[0] means, find the web element of index 0, first occurrence
+		pause(3);
+	}
+	
+	// how to input text inside a field by JavascriptExecutor, alternate of sendKeys()
+	// user id field is used to input text
+	public void alternate_of_send_keys_method() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].value = 'enthrall_12'", userId);
+		pause(3);
+	}
+	
+	// login process by JavascriptExecutor
+	// alternative of click(), sendKeys() is used
+	public void login_process_by_JavascriptExecutor(){
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		elementDisplayed(userId);		
+		js.executeScript("arguments[0].value = 'enthrall_12' ", userId);
+		pause(3);
+		elementDisplayed(password);
+		js.executeScript("arguments[0].value = 'OnthrallTest@1234' ", password);
+		pause(3);
+		elementSelected(iAgree);
+		js.executeScript("arguments[0].click()", iAgree);
+		pause(3);
+		elementEnabled(loginButton);
+		verifyTextInTheWebElement(loginButton, "Login");
+		js.executeScript("arguments[0].click()", loginButton);
+		pause(3);
+	}
+	
+	// it will fail, because selenium can't handle hidden element
+	public void how_to_handle_hidden_element_by_regular_selenium_method() {
+		pause(3);
+		driver.navigate().to("https://www.letskodeit.com/practice");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		pause(3);
+		// identify the 'Hide' element and click on it [line 548]
+		// The search field will be disappeared, but we can pass value on it, as we got the info before
+		driver.findElement(By.id("hide-textbox")).click();
+		pause(3);
+		// identify element and set/input text or value (line 551) by selenium
+		driver.findElement(By.xpath("//input[@id='displayed-text']")).sendKeys("August 2023");
+		// it will fail by below error message
+		// org.openqa.selenium.ElementNotInteractableException: element not interactable
+		// whenever you find element not interactable in console, that is for sure a hidden element		
+	}
+	
+	// it will pass
+	public void how_to_handle_hidden_element_by_javascriptExecutor() {
+		pause(3);
+		driver.navigate().to("https://www.letskodeit.com/practice");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		pause(3);
+		// identify the 'Hide' element and click on it [line 548]
+		// The search field will be disappeared, but we can pass value on it, as we got the info before
+		driver.findElement(By.id("hide-textbox")).click();
+		pause(3);
+		// identify element and set/input text or value (line 551) by selenium
+		// identify element and set/input text or value by JavascriptExecutor
+		WebElement searchField = driver.findElement(By.xpath("//input[@id='displayed-text']"));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].value = 'December 2023' ", searchField);	
+		
+		
+		// You can really know what was the text written by the JavascriptExecutor		
+		// not important and not related
+		// Extra code
+		// Extra not related to hidden elements and not important
+		// To find out what you send as text, not necessary for this scenario
+		// Just save the below code for future reference
+		String s = (String) js.executeScript("return document.getElementById('displayed-text').value");
+		System.out.print("Value entered in hidden field: " + s + "\n");
+		
+		// not important
+		// How to get title of the page by JavaScript
+		// How to read a JavaScript variable in Selenium WebDriver?
+		// How to getTitle by Javascript, 
+		String sText = js.executeScript("return document.title;").toString(); // fetching page title by javascript
+		System.out.println("The title of the Page is: "+sText);	
+		
+		// not related with this test
+		// How to refresh by Javascript, 
+		js.executeScript("history.go(0)"); // To do refresh by Javascript
+		
+	}
+	
+	// very very important
+	// when the web element always failed in test, use explicitly wait, 
+	// in this web site doesn't have that complex scenario
+	// "unlock" web element 
+	// using visibilityOfElementLocated() method , Number one
+	// This is a very common scenario in industry to use explicitly wait
+	public void use_of_explicitly_wait_01() {
+		pause(3);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(unlock)).click();
+		pause(3);
+	}
+	
+	// same webElement
+	// using elementToBeClickable() method, number two
+	public void use_of_explicitly_wait_02(){
+		pause(3);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.elementToBeClickable(unlock)).click();
+		pause(4);
+	}
+		
+		
 	
 	
 	

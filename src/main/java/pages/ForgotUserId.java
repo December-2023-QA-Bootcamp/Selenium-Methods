@@ -20,6 +20,12 @@ public class ForgotUserId {
 	@FindBy (id = "cms-forgot-userid")
 	WebElement forgotUserId;
 	
+	@FindBy(xpath = "//input[@id='cms-forgotid-firstName']")
+	WebElement firstName;
+	
+	@FindBy(xpath = "//input[@name='cms-forgotid-lastName']")
+	WebElement lastName;
+	
 	@FindBy(xpath = "//select[@name='cms-forgotid-birthDate']")
 	WebElement birthDate;
 	
@@ -29,11 +35,28 @@ public class ForgotUserId {
 	@FindBy(xpath = "//select[@id='cms-forgotid-birthMonth']")
 	WebElement birthMonth;
 	
+	@FindBy(xpath = "//input[@id='cms-forgotid-forgotEmail']")
+	WebElement email;
+	
+	@FindBy(xpath = "//input[@id='cms-forgotid-usZipCode']")
+	WebElement zipCode;
+	
+	@FindBy(xpath = "//button[contains(text(), 'Su')]")
+	WebElement submitButton;
+	
 	public void navigateToForgotUserIdPage() {
 		clickElement(forgotUserId);
 		pause(3);
 		verifyTitle(driver, "CMS Enterprise Portal - Forgot User ID");
 		verifyCurrentUrl(driver);
+	}
+	
+	// birth month
+	// use method --> selectByValue()
+	public void use_of_dropdown_with_selectByValue_method() {
+		select = new Select(birthMonth);
+		select.selectByValue("05");
+		pause(3);
 	}
 	
 	// birth date
@@ -58,13 +81,28 @@ public class ForgotUserId {
 		pause(3);
 	}
 	
-	// birth month
-	// use method --> selectByValue()
-	public void use_of_dropdown_with_selectByValue_method() {
-		select = new Select(birthMonth);
-		select.selectByValue("05");
+	public void forgotUserid() {
+		inputText(firstName, "Mohammad");
 		pause(3);
+		inputText(lastName, "Sharkar");
+		pause(3);
+		selectDropdown(birthMonth, "April");
+		pause(3);
+		selectDropdown(birthDate, "3");
+		pause(3);
+		selectDropdown(birthYear, "1980");
+		pause(3);
+		inputText(email, "tofael483@gmail.com");
+		pause(3);
+		inputText(zipCode, "10019");
+		pause(3);
+		clickElement(submitButton);
+		pause(3);
+		
 	}
+	
+	
+	
 	
 	
 	
