@@ -1,5 +1,13 @@
 package pagesTest;
 
+import static common.CommonActions.elementDisplayed;
+import static common.CommonActions.elementEnabled;
+import static common.CommonActions.elementSelected;
+import static common.CommonActions.pause;
+import static common.CommonActions.verifyTextInTheWebElement;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -207,10 +215,53 @@ public class HomePageTest extends BaseClass {
 		homePage.use_of_sendKeys_method_then_click_by_return_key_of_the_laptop();
 	}
 	
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void use_of_navigate_method_test () {
 		homePage.use_of_navigate_method ();
 	}
+	
+	@Test(enabled = false)
+	public void use_of_mouse_hoverAction_on_ourLocations_test () {
+		homePage.use_of_mouse_hoverAction_on_ourLocations ();
+	}
+	
+	@Test(enabled = false)
+	public void alternate_of_click_method_test() {
+		homePage.alternate_of_click_method();
+	}
+	
+	@Test(enabled = false)
+	public void alternate_of_send_keys_method_test() {
+		homePage.alternate_of_send_keys_method();
+	}
+	
+	@Test(enabled = false)
+	public void login_process_by_JavascriptExecutor_test() {
+		homePage.login_process_by_JavascriptExecutor();
+	}
+	
+	// it will fail
+	@Test(enabled = false)
+	public void how_to_handle_hidden_element_by_regular_selenium_method_test() {
+		homePage.how_to_handle_hidden_element_by_regular_selenium_method();
+	}
+	
+	@Test(enabled = false)
+	public void how_to_handle_hidden_element_by_javascriptExecutor_test() {
+		homePage.how_to_handle_hidden_element_by_javascriptExecutor();
+	}
+	
+	@Test(enabled = false)
+	public void use_of_explicitly_wait_01_test() {
+		homePage.use_of_explicitly_wait_01();
+	}
+	
+	@Test(enabled = true)
+	public void use_of_explicitly_wait_02_test() {
+		homePage.use_of_explicitly_wait_02();
+	}
+	
+	
 	
 	
 	

@@ -4,6 +4,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import constants.Attribute;
@@ -180,6 +181,19 @@ public class CommonActions {
 			Assert.fail();
 		}
 	}
+	
+	public static void selectDropdown(WebElement element, String value) {
+		try {
+			Select select = new Select(element);
+			select.selectByVisibleText(value);
+			Loggers.logTheTest(value + " has been selected from the dropdown of ---> " + element);
+		} catch (NullPointerException | NoSuchElementException e) {
+			e.printStackTrace();
+			Loggers.logTheTest(element + " : This element Not Found");
+			Assert.fail();
+		}
+	}
+	
 	
 	
 	
