@@ -55,7 +55,7 @@ public class CommonActions {
 		
 	}
 	
-	public static boolean elementDisplayed (WebElement element){
+	public static void elementDisplayed (WebElement element){
 		try {
 			boolean flag = element.isDisplayed();
 			Loggers.logTheTest(element + "<---------> is Displayed, " + flag);
@@ -65,10 +65,9 @@ public class CommonActions {
 			Loggers.logTheTest(element + "<----------> is not Displayed\n" + e.getMessage() );
 			Assert.fail();
 		}
-		return true;				
 	}
 	
-	public static boolean elementEnabled(WebElement element) {
+	public static void elementEnabled(WebElement element) {
 		try {
 			boolean flag = element.isEnabled();
 			Loggers.logTheTest(element + "<---------> is Enabled, " + flag);
@@ -78,10 +77,9 @@ public class CommonActions {
 			Loggers.logTheTest(element + "<----------> is Disabled\n" + e.getMessage() ); 
 			Assert.fail();
 		}
-		return true;
 	}
 	
-	public static boolean elementSelected (WebElement element){
+	public static void elementSelected (WebElement element){
 		try {
 			boolean flag = element.isSelected();
 			Loggers.logTheTest(element + "<---------> is Selected, " + flag);
@@ -91,7 +89,7 @@ public class CommonActions {
 			Loggers.logTheTest(element + "<----------> is not Selected\n" + e.getMessage() );
 			Assert.fail();
 		}
-		return true;				
+		
 	}
 	
 	public static void verifyTitle(WebDriver driver, String expectedTitle) {
@@ -131,7 +129,7 @@ public class CommonActions {
 	
 	// Attribute is coming from package constants, we will check the outcome later
 	public static String getAttributeValue(WebElement element, Attribute attribute) {
-		return element.getAttribute(attribute.toString());
+		return element.getAttribute(attribute.getTheAttribute());
 	}
 	
 	public static void verifyAttribute01(WebElement element, Attribute attribute, String expectedValue) {

@@ -27,7 +27,7 @@ public class BaseClass {
 	public NewUserRegistration newUserRegistration;
 	public ForgotUserId forgotUserId;
 	public Select select;
-	public JavascriptExecutor js;
+	//public JavascriptExecutor js;
 	public WebDriverWait wait;
 	
 	// Before start a test what need to do?
@@ -41,12 +41,12 @@ public class BaseClass {
 		// How can we convert a String to Long type
 		long pageLoadWait = Long.parseLong(configuration.getProperties(PAGELOAD_WAIT));
 		long implicitlyWait = Long.parseLong(configuration.getProperties(IMPLICITLY_WAIT));	
-		long explicitlyWait = Long.parseLong(configuration.getProperties(EXPLICITLY_WAIT));
+		// long explicitlyWait = Long.parseLong(configuration.getProperties(EXPLICITLY_WAIT));
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(pageLoadWait));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWait));
-		wait = new WebDriverWait(driver, Duration.ofSeconds(explicitlyWait));
+		// wait = new WebDriverWait(driver, Duration.ofSeconds(explicitlyWait));
 		initClass();
-		js = (JavascriptExecutor) driver;
+		//js = (JavascriptExecutor) driver;
 	}
 	
 	public void initDriver() {

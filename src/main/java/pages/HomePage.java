@@ -1,7 +1,9 @@
 package pages;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -11,7 +13,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 
@@ -22,22 +23,27 @@ import constants.Attribute;
 // This is called static import
 import static common.CommonActions.*;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.time.Duration;
 
 
 public class HomePage {
 	WebDriver driver;
 	WebDriverWait wait;
-	
-	//Actions actions = new Actions(driver);
+	JavascriptExecutor js;
+	Actions actions;
 
 	public HomePage(WebDriver driver) {
-		super();
 		this.driver = driver;
 		// PageFactory help to instantiate WebElements
 		PageFactory.initElements(driver, this);
 		// If no PageFactory class, Web element can't instantiated and will show "NullPointerException"
 		// do java comment for line 16 to see the exception
+		js = (JavascriptExecutor) driver;
+		actions = new Actions(driver);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 	}
 	
 	// 1st way: Most common way to write the WebElement (@FindBy), you must know how to do that 95%
@@ -496,7 +502,7 @@ public class HomePage {
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20)); 
 		WebElement ourLocations = driver.findElement(By.xpath("//a[normalize-space(text()) = 'Our Locations' and @class='hidden-xs dropdown']"));
-		Actions actions = new Actions(driver);
+		// Actions actions = new Actions(driver);
 		actions.moveToElement(ourLocations).build().perform();
 		pause(6);
 	}
@@ -507,7 +513,7 @@ public class HomePage {
 	// alternate of click()
 	// login button used
 	public void alternate_of_click_method() {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
+		// JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].click()", loginButton); // memorize the content
 		// arguments[0] means, find the web element of index 0, first occurrence
 		pause(3);
@@ -516,7 +522,7 @@ public class HomePage {
 	// how to input text inside a field by JavascriptExecutor, alternate of sendKeys()
 	// user id field is used to input text
 	public void alternate_of_send_keys_method() {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
+		//JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].value = 'enthrall_12'", userId);
 		pause(3);
 	}
@@ -524,7 +530,7 @@ public class HomePage {
 	// login process by JavascriptExecutor
 	// alternative of click(), sendKeys() is used
 	public void login_process_by_JavascriptExecutor(){
-		JavascriptExecutor js = (JavascriptExecutor) driver;
+		// js = (JavascriptExecutor) driver;
 		elementDisplayed(userId);		
 		js.executeScript("arguments[0].value = 'enthrall_12' ", userId);
 		pause(3);
@@ -572,7 +578,7 @@ public class HomePage {
 		// identify element and set/input text or value (line 551) by selenium
 		// identify element and set/input text or value by JavascriptExecutor
 		WebElement searchField = driver.findElement(By.xpath("//input[@id='displayed-text']"));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
+		//js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].value = 'December 2023' ", searchField);	
 		
 		
@@ -605,22 +611,307 @@ public class HomePage {
 	// using visibilityOfElementLocated() method , Number one
 	// This is a very common scenario in industry to use explicitly wait
 	public void use_of_explicitly_wait_01() {
-		pause(3);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		pause(3);		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(unlock)).click();
 		pause(3);
 	}
 	
-	// same webElement
+	// unlock webElement
 	// using elementToBeClickable() method, number two
 	public void use_of_explicitly_wait_02(){
 		pause(3);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		wait.until(ExpectedConditions.elementToBeClickable(unlock)).click();
 		pause(4);
 	}
+	
+	// userId webElement
+	// using visibilityOf() method, number three
+	public void use_of_explicitly_wait_03(){
+		pause(3);
+		wait.until(ExpectedConditions.visibilityOf(userId)).isDisplayed(); // here userId is webElement type
+		pause(4);
+	}
+	
+	// Try to remember this above 3 conditions name for interview, most time they asked it
 		
+	// Not important, you can use it to practice
+	// "unlock" web element 
+	// using presenceOfElementLocated() method
+	public void use_of_explicitly_wait_04(){
+		pause(3);
+		wait.until(ExpectedConditions.presenceOfElementLocated(unlock)).click();
+		pause(4);
+	}
+	
+	// Not important, you can use it to practice
+	// "Login Button" web element
+	// using textToBePresentInElement() method
+	// this is not a clickable method, just to recognize the web element
+	public void use_of_explicitly_wait_05(){
+		pause(3);
+		boolean outcome = wait.until(ExpectedConditions.textToBePresentInElement(loginButton, "Login"));
+		System.out.println(outcome);
+		pause(4);
+	}
+	
+	// important interview question
+	// 1st way: Scroll by Actions class
+	// scroll bottom and then top
+	public void use_of_scroll_down_and_up_by_actions_class () {
+		pause(3);
+		// for Scroll Down using Actions class, to go at the bottom of the page
+		actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).perform();
+		pause(3);
+		// for Scroll Up using Actions class at the top of the page
+		actions.keyDown(Keys.CONTROL).sendKeys(Keys.HOME).perform();
+		pause(3);
+		// instead of END and HOME, we can use Keys.UP or Keys.Down
+		// But it doesn't change much but the test case passes, we will not use them
+	}
+	
+	// important interview question
+	// 2nd way: Scroll by javascriptExecutor
+	// scroll in a certain position (not at the bottom or up)
+	public void use_of_scroll_down_and_up_by_javascriptExecutor () {
+		pause(3);
+		// This will scroll down the page by 1000 pixel vertically
+		// here 0 is x axis, 1000 y axis
+		// you choose your pixel accordingly to reach to that web element
+		js.executeScript("window.scrollBy(0, 1000)", "");
+		// You can change the value to any pixel, and put your own to see the web element you wanna test
+		pause(4);
+		js.executeScript("window.scrollBy(0, -1000)", ""); // scroll up till 1000px, but not necessary based on your test
+		// minus when it goes opposite of down
+		pause(3);
+	}
+	
+	// not important, just to know
+	public void use_of_scroll_down_and_scroll_up_by_robot_class () throws InterruptedException, AWTException {
+		// For some reason, they are not going completely Up or Down
+		Robot robot = new Robot();
+		// Scroll Down using Robot class
+		robot.keyPress(KeyEvent.VK_PAGE_DOWN); // Constant for the PAGE_DOWN virtual key.
+		robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
+		pause(3);
+		// Scroll Up using Robot class
+        robot.keyPress(KeyEvent.VK_PAGE_UP); // Constant for the PAGE_UP virtual key. 
+        robot.keyRelease(KeyEvent.VK_PAGE_UP);
+        pause(3);		
+	}
+	
+	// scroll Into View The Element
+	// This is very very important, standard interview question
+	// This is better to use
+	public void scroll_into_view_the_element() {
+		pause(3);
+		WebElement enterprise = driver.findElement(By.xpath("//h1[contains(text(), 'Enterprise')]"));
+		js.executeScript("arguments[0].scrollIntoView(true);", enterprise);
+		pause(4);		
+	}
+	
+	// very very important for interview
+	public void web_based_alert_accept () {
+		pause(4);
+		driver.get("http://softwaretestingplace.blogspot.com/2017/03/javascript-alert-test-page.html");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.findElement(By.xpath("//button[contains(text(), 'Try it')]")).click();
+		pause(4);
+		Alert alert = driver.switchTo().alert();
+		pause(3);
+		System.out.println("The text present in the alert is: " + alert.getText());
+		alert.accept(); // will click on OK button
+		pause(3);
+		// line 721, not part of the accept function, 
+		// we just added to know about, the text is present in the alert or not,
+		// also if you use it after 722, it might not retrieve the text							
+	}
+	
+	public void web_based_alert_dismiss () {
+		pause(4);
+		driver.get("http://softwaretestingplace.blogspot.com/2017/03/javascript-alert-test-page.html");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.findElement(By.xpath("//button[contains(text(), 'Try it')]")).click();
+		pause(4);
+		Alert alert = driver.switchTo().alert();
+		pause(3);
+		System.out.println("The text present in the alert is: " + alert.getText());
+		alert.dismiss(); // will click on Cancel button
+		pause(3);						
+	}
+	
+	// Only important for interview
+	public void authentication_pop_up (){
+		pause(3);	
+		String userName = "admin";
+		String password = "admin";
+		// original one is: "https://the-internet.herokuapp.com/basic_auth";
+		// Updated one is: "https://admin:admin@the-internet.herokuapp.com/basic_auth";
+		String url = "https://" + userName + ":" + password + "@" + "the-internet.herokuapp.com/basic_auth";
+		driver.get(url);
+		pause(3);
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		pause(3);
 		
+		// The below part is not part of this test
+		// identify and get text after authentication of pop up
+		String t = driver.findElement(By.tagName("p")).getText(); // we use tag name as a locator in our course
+		System.out.println("The Text is: " + t);
+	}
+	
+	// only important for interview
+	public void use_of_right_click_action () {
+		pause(3);
+		driver.get("https://demo.guru99.com/test/simple_context_menu.html");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		WebElement rcButton = driver.findElement(By.xpath("//span[contains(text(), 'right click me')]"));
+		// Actions actions = new Actions(driver);
+		actions.moveToElement(rcButton).contextClick().build().perform(); // right click action
+		pause(3);
+		
+		// From Line 775, not part of testing, just completed the scenario
+		// Just keep below code, Can't find the web element for Edit at present, the line 779 is from my collection.
+		// Below 2 is not relevant to right click, just doing some extra, which we know already
+		// Next: I want to click on Edit link on the displayed menu options
+		WebElement edit = driver.findElement(By.xpath("//span[text()='Edit']"));
+		pause(3);
+		edit.click(); // a regular click, not a right click
+		pause(3);
+		// Switch to the alert box and click on OK button
+		Alert alert = driver.switchTo().alert();
+		System.out.println("\nAlert Text:" + alert.getText());
+		alert.accept();
+		pause(3);
+	}
+	
+	// only important for interview
+	public void use_of_double_click_action () {
+		pause(3);
+		driver.get("https://demo.guru99.com/test/simple_context_menu.html");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		pause(3);
+		WebElement dcButton = driver.findElement(By.xpath("//button[text()='Double-Click Me To See Alert']"));
+		actions.doubleClick(dcButton).build().perform(); // double click action
+		pause(3);
+		// Not part of the double click action
+		// Switch to the alert box and click on OK button
+		Alert alert = driver.switchTo().alert();
+		System.out.println("\nAlert Text:" + alert.getText());
+		alert.accept();
+		pause(3);
+	}
+	
+	// not important
+	public void use_of_drag_and_drop_action () {
+		pause(3);
+		driver.get("https://demo.guru99.com/test/drag_drop.html");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		// Element which needs to drag (Bank)
+		WebElement sourceLocator = driver.findElement(By.xpath("//a[text()=' BANK ']")); // Web element of the Bank button, it will be dragged
+		// Element where need to be dropped.(In 'Account' field of debit side)
+		WebElement targetLocator = driver.findElement(By.xpath("//ol[@id='bank']")); // and it will be dropped here
+		// We Use Actions class for drag and drop.
+		actions.dragAndDrop(sourceLocator, targetLocator).build().perform();
+		pause(3);
+	}
+	
+	// not important
+	public void use_of_slider_action () {
+		pause(3);	
+		driver.get("https://demoqa.com/slider/");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		// Retrieve WebElemnt 'slider' to perform mouse hover
+		// This is the field where volume is increased
+		WebElement slider = driver.findElement(By.cssSelector("input.range-slider.range-slider--primary"));
+		// Move mouse to x offset 50 i.e. in horizontal direction
+		pause(3);
+		// to test the slider is working or not
+		// dragAndDropBy (element, int xoffset, int yoffset)
+		actions.dragAndDropBy(slider, 50, 0).build().perform(); 
+		// learn from here, 50 is in pixel which might not match with real volume change, real volume 60
+		pause(3);
+		// slider.click();
+		System.out.println("Moved slider in horizontal directions");
+	}
+		
+	
+	// not important (alternate), also tough
+	public void use_of_slider_action_alternate () {
+		pause(3);
+		driver.get("https://demoqa.com/slider/");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		// Retrieve WebElemnt 'slider' to perform mouse hover
+		// This is the field where volume is increased
+		WebElement slider = driver.findElement(By.cssSelector("input.range-slider.range-slider--primary")); 
+		// Move mouse to x offset 65 i.e. in horizontal direction
+		pause(3);
+		// More tough than above
+		actions.clickAndHold(slider);
+		pause(3);
+		actions.moveByOffset(65, 0).build().perform(); // pixel 65, real volume 63
+		pause(3);
+		System.out.println("Moved slider in horizontal directions");
+		
+	}
+	
+	// How to read the content of a Table 
+	public void read_table () {
+		pause(5);	
+		driver.get("https://www.amazon.com/");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		pause(5);	
+		// Scrolled to the end of page
+		actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).perform();
+		pause(5);	
+		// WebElement table = driver.findElement(By.tagName("table"));  // we can use tag name too, i have to check if we can follow below methods with this
+		WebElement table = driver.findElement(By.cssSelector("table.navFooterMoreOnAmazon"));
+		System.out.println(table.getText());
+		pause(5);	
+		
+	}
+	
+	// How to read the row of a Table 
+	public void read_any_row_of_the_table () {
+		pause(5);	
+		driver.get("https://www.amazon.com");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		pause(5);	
+		actions = new Actions(driver); 
+		actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).perform();
+		pause(5);	
+		WebElement row = driver.findElement(By.cssSelector("table.navFooterMoreOnAmazon tr:nth-child(1)"));
+		System.out.println(row.getText());
+		pause(5);	
+	}
+	
+	// How to read any cell of a row of the Table 
+	public void read_any_cell_of_a_row_of_the_table () {
+		pause(5);	
+		driver.get("https://www.amazon.com");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		pause(5);	
+		//actions = new Actions(driver); 
+		actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).perform();
+		pause(5);
+		WebElement cell = driver.findElement(By.cssSelector("table.navFooterMoreOnAmazon tr:nth-child(3) td:nth-child(1)"));
+		System.out.println(cell.getText());	
+		pause(5);	
+	}
+	
+	
+	
+	
+	
 	
 	
 	
