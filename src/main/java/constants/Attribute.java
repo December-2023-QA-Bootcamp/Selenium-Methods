@@ -7,7 +7,7 @@ public enum Attribute {
 	INNER_TEXT("innerHTML"),
 	ID("id"),
 	NAME("name");
-	// ID, Name is used in homepage
+	// ID, Name is used in home page
 
 	String attribute;
 
@@ -21,10 +21,13 @@ public enum Attribute {
 	// why getter method here?
 	// When Enum call the Constant, actually it call the getter method
 	// https://issac88.medium.com/java-enum-fields-methods-constructors-3a19256f58b
-	public String getAttribute() {
+	public String getTheAttribute() {
 		return attribute;
 	}
 
+	// override from Object class 
+	// as Enum inherited from object class too, it can override method of Object class
+	// but we are not using it
 	@Override
 	public String toString() {
 		return attribute;
